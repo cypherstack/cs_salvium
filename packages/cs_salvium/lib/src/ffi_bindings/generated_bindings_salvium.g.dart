@@ -2421,6 +2421,70 @@ class FfiSalviumC {
       _SALVIUM_Wallet_publicMultisigSignerKeyPtr.asFunction<
           ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
 
+  ffi.Pointer<ffi.Char> SALVIUM_Wallet_secretViewBalance(
+    ffi.Pointer<ffi.Void> wallet_ptr,
+  ) {
+    return _SALVIUM_Wallet_secretViewBalance(
+      wallet_ptr,
+    );
+  }
+
+  late final _SALVIUM_Wallet_secretViewBalancePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<ffi.Void>)>>('SALVIUM_Wallet_secretViewBalance');
+  late final _SALVIUM_Wallet_secretViewBalance =
+      _SALVIUM_Wallet_secretViewBalancePtr.asFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
+
+  ffi.Pointer<ffi.Char> SALVIUM_Wallet_secretProveSpend(
+    ffi.Pointer<ffi.Void> wallet_ptr,
+  ) {
+    return _SALVIUM_Wallet_secretProveSpend(
+      wallet_ptr,
+    );
+  }
+
+  late final _SALVIUM_Wallet_secretProveSpendPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<ffi.Void>)>>('SALVIUM_Wallet_secretProveSpend');
+  late final _SALVIUM_Wallet_secretProveSpend =
+      _SALVIUM_Wallet_secretProveSpendPtr.asFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
+
+  ffi.Pointer<ffi.Char> SALVIUM_Wallet_secretGenerateAddress(
+    ffi.Pointer<ffi.Void> wallet_ptr,
+  ) {
+    return _SALVIUM_Wallet_secretGenerateAddress(
+      wallet_ptr,
+    );
+  }
+
+  late final _SALVIUM_Wallet_secretGenerateAddressPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<ffi.Void>)>>('SALVIUM_Wallet_secretGenerateAddress');
+  late final _SALVIUM_Wallet_secretGenerateAddress =
+      _SALVIUM_Wallet_secretGenerateAddressPtr.asFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
+
+  ffi.Pointer<ffi.Char> SALVIUM_Wallet_secretGenerateImage(
+    ffi.Pointer<ffi.Void> wallet_ptr,
+  ) {
+    return _SALVIUM_Wallet_secretGenerateImage(
+      wallet_ptr,
+    );
+  }
+
+  late final _SALVIUM_Wallet_secretGenerateImagePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<ffi.Void>)>>('SALVIUM_Wallet_secretGenerateImage');
+  late final _SALVIUM_Wallet_secretGenerateImage =
+      _SALVIUM_Wallet_secretGenerateImagePtr.asFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
+
   void SALVIUM_Wallet_stop(
     ffi.Pointer<ffi.Void> wallet_ptr,
   ) {
