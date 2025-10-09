@@ -19,6 +19,8 @@ void main() {
         key: 'transaction_key',
         timeStamp: DateTime.now(),
         minConfirms: MinConfirms.salvium,
+        asset: '',
+        type: 0,
       );
 
       expect(transaction.displayLabel, 'Transaction 1');
@@ -52,6 +54,8 @@ void main() {
           key: 'transaction_key',
           timeStamp: DateTime.now(),
           minConfirms: MinConfirms.salvium,
+          asset: '',
+          type: 0,
         ),
         throwsA(
           isA<Exception>().having(
@@ -80,6 +84,8 @@ void main() {
           key: 'transaction_key',
           timeStamp: DateTime.now(),
           minConfirms: MinConfirms.salvium,
+          asset: '',
+          type: 0,
         ),
         throwsA(
           isA<Exception>().having(
@@ -108,6 +114,8 @@ void main() {
           key: 'transaction_key',
           timeStamp: DateTime.now(),
           minConfirms: MinConfirms.salvium,
+          asset: '',
+          type: 0,
         ),
         throwsA(
           isA<Exception>().having(
@@ -136,6 +144,8 @@ void main() {
           key: 'transaction_key',
           timeStamp: DateTime.now(),
           minConfirms: MinConfirms.salvium,
+          asset: '',
+          type: 0,
         ),
         throwsA(
           isA<Exception>().having(
@@ -163,6 +173,8 @@ void main() {
         key: 'transaction_key',
         timeStamp: DateTime.now(),
         minConfirms: MinConfirms.salvium,
+        asset: '',
+        type: 0,
       );
 
       expect(transaction.isConfirmed, true);
@@ -184,6 +196,8 @@ void main() {
         key: 'transaction_key',
         timeStamp: DateTime.now(),
         minConfirms: MinConfirms.salvium,
+        asset: '',
+        type: 0,
       );
 
       expect(transaction.isPending, true);
