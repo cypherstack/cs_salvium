@@ -360,7 +360,7 @@ int getSalviumHeightByDate({required DateTime date}) {
       endHeight = salviumDates.values.toList()[salviumDates.length - 1];
       final heightPerDay = (endHeight - startHeight) / 31;
       final endDateRaw =
-      salviumDates.keys.toList()[salviumDates.length - 1].split('-');
+          salviumDates.keys.toList()[salviumDates.length - 1].split('-');
       final endYear = int.parse(endDateRaw[0]);
       final endMonth = int.parse(endDateRaw[1]);
       final endDate = DateTime(endYear, endMonth);

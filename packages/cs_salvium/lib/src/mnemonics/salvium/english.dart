@@ -1,6 +1,5 @@
 class EnglishMnemonics {
   static const words = [
-
     "abbey",
     "abducts",
     "ability",

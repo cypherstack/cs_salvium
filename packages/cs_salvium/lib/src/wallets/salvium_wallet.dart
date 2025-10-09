@@ -5,7 +5,6 @@ import 'package:meta/meta.dart';
 
 import '../../cs_salvium.dart';
 import '../deprecated/get_height_by_date.dart';
-import '../enums/salvium_seed_type.dart';
 import '../ffi_bindings/salvium_wallet_bindings.dart' as sal_ffi;
 import '../ffi_bindings/salvium_wallet_manager_bindings.dart' as sal_wm_ffi;
 
@@ -173,7 +172,8 @@ class SalviumWallet extends Wallet {
       case SalviumSeedType.twentyFive:
         walletPointer = Pointer<Void>.fromAddress(
           await Isolate.run(
-            () => sal_wm_ffi.createWallet(
+            () => sal_wm_ffi
+                .createWallet(
                   Pointer.fromAddress(walletManagerPointerAddress),
                   path: path,
                   password: password,
@@ -238,7 +238,8 @@ class SalviumWallet extends Wallet {
     if (seedLength == 25) {
       walletPointer = Pointer<Void>.fromAddress(
         await Isolate.run(
-          () => sal_wm_ffi.recoveryWallet(
+          () => sal_wm_ffi
+              .recoveryWallet(
                 Pointer.fromAddress(walletManagerPointerAddress),
                 path: path,
                 password: password,
@@ -253,7 +254,8 @@ class SalviumWallet extends Wallet {
     } else if (seedLength == 16) {
       walletPointer = Pointer<Void>.fromAddress(
         await Isolate.run(
-          () => sal_wm_ffi.createWalletFromPolyseed(
+          () => sal_wm_ffi
+              .createWalletFromPolyseed(
                 Pointer.fromAddress(walletManagerPointerAddress),
                 path: path,
                 password: password,
@@ -267,20 +269,20 @@ class SalviumWallet extends Wallet {
               .address,
         ),
       );
-    // } else if (seedLength == 14) {
-    //   walletPointer = sal_ffi.restore14WordSeed(
-    //     path: path,
-    //     password: password,
-    //     language: seed, // yes the "language" param is misnamed
-    //     networkType: networkType,
-    //   );
-    //   restoreHeight = sal_ffi.getWalletRefreshFromBlockHeight(walletPointer);
-    //   // store seed with the correct cache key
-    //   sal_ffi.setWalletCacheAttribute(
-    //     walletPointer,
-    //     key: _kTwentyFiveWordSeedCacheKey,
-    //     value: seed,
-    //   );
+      // } else if (seedLength == 14) {
+      //   walletPointer = sal_ffi.restore14WordSeed(
+      //     path: path,
+      //     password: password,
+      //     language: seed, // yes the "language" param is misnamed
+      //     networkType: networkType,
+      //   );
+      //   restoreHeight = sal_ffi.getWalletRefreshFromBlockHeight(walletPointer);
+      //   // store seed with the correct cache key
+      //   sal_ffi.setWalletCacheAttribute(
+      //     walletPointer,
+      //     key: _kTwentyFiveWordSeedCacheKey,
+      //     value: seed,
+      //   );
     } else {
       throw Exception("Bad seed length: $seedLength");
     }
@@ -413,7 +415,8 @@ class SalviumWallet extends Wallet {
     final walletManagerPointerAddress = _walletManagerPointer.address;
     final walletPointer = Pointer<Void>.fromAddress(
       await Isolate.run(
-        () => sal_wm_ffi.createWalletFromKeys(
+        () => sal_wm_ffi
+            .createWalletFromKeys(
               Pointer.fromAddress(walletManagerPointerAddress),
               path: path,
               password: password,
@@ -484,7 +487,8 @@ class SalviumWallet extends Wallet {
     final walletManagerPointerAddress = _walletManagerPointer.address;
     final walletPointer = Pointer<Void>.fromAddress(
       await Isolate.run(
-        () => sal_wm_ffi.createDeterministicWalletFromSpendKey(
+        () => sal_wm_ffi
+            .createDeterministicWalletFromSpendKey(
               Pointer.fromAddress(walletManagerPointerAddress),
               path: path,
               password: password,
@@ -538,7 +542,8 @@ class SalviumWallet extends Wallet {
     final walletManagerPointerAddress = _walletManagerPointer.address;
     final walletPointer = Pointer<Void>.fromAddress(
       await Isolate.run(
-        () => sal_wm_ffi.openWallet(
+        () => sal_wm_ffi
+            .openWallet(
               Pointer.fromAddress(walletManagerPointerAddress),
               path: path,
               password: password,
