@@ -1,4 +1,5 @@
 import '../../cs_salvium.dart';
+import '../enums/tx_type.dart';
 
 /// Represents a Monero (or Wownero) transaction for a given wallet.
 class Transaction {
@@ -51,7 +52,7 @@ class Transaction {
   final int accountIndex;
 
   /// The transaction type associated with this transaction.
-  final int type;
+  final TxType type;
 
   /// An optional payment identifier, used to associate this transaction with a payment.
   final String paymentId;

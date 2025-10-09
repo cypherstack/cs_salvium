@@ -37,7 +37,7 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
     try {
       // Refresh and get all transactions
       final transactions = await widget.wallet.getAllTxs(refresh: true);
-      
+
       setState(() {
         _transactions = transactions;
         _filteredTransactions = _applyFilters(transactions);
@@ -47,7 +47,7 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
       setState(() {
         _isLoading = false;
       });
-      
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -83,7 +83,9 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
 
     // Apply transaction type filter
     if (_transactionTypeFilter != TransactionTypeFilter.all) {
-      filtered = filtered.where((tx) => _transactionTypeFilter.matches(tx.type)).toList();
+      filtered = filtered
+          .where((tx) => _transactionTypeFilter.matches(tx.type.value))
+          .toList();
     }
 
     // Apply text filter
@@ -139,7 +141,7 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
         children: [
           // Filter and Sort Controls
           _buildFilterControls(),
-          
+
           // Transaction List
           Expanded(
             child: _isLoading
@@ -172,7 +174,7 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
             ),
           ),
           const SizedBox(height: 12),
-          
+
           // Status Filter chips
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -181,30 +183,32 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
                 Text(
                   'Status: ',
                   style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+                ...TransactionFilter.values.map(
+                  (filter) => Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: ChoiceChip(
+                      label: Text(filter.displayName),
+                      selected: _filterType == filter,
+                      onSelected: (selected) {
+                        if (selected) {
+                          setState(() {
+                            _filterType = filter;
+                            _updateFilter();
+                          });
+                        }
+                      },
+                    ),
                   ),
                 ),
-                ...TransactionFilter.values.map((filter) => Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: ChoiceChip(
-                    label: Text(filter.displayName),
-                    selected: _filterType == filter,
-                    onSelected: (selected) {
-                      if (selected) {
-                        setState(() {
-                          _filterType = filter;
-                          _updateFilter();
-                        });
-                      }
-                    },
-                  ),
-                ),),
               ],
             ),
           ),
-          
+
           const SizedBox(height: 8),
-          
+
           // Transaction Type Filter chips
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -213,27 +217,29 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
                 Text(
                   'Type: ',
                   style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+                ...TransactionTypeFilter.values.map(
+                  (filter) => Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: ChoiceChip(
+                      label: Text(filter.displayName),
+                      selected: _transactionTypeFilter == filter,
+                      onSelected: (selected) {
+                        if (selected) {
+                          setState(() {
+                            _transactionTypeFilter = filter;
+                            _updateFilter();
+                          });
+                        }
+                      },
+                    ),
                   ),
                 ),
-                ...TransactionTypeFilter.values.map((filter) => Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: ChoiceChip(
-                    label: Text(filter.displayName),
-                    selected: _transactionTypeFilter == filter,
-                    onSelected: (selected) {
-                      if (selected) {
-                        setState(() {
-                          _transactionTypeFilter = filter;
-                          _updateFilter();
-                        });
-                      }
-                    },
-                  ),
-                ),),
-                
+
                 const SizedBox(width: 16),
-                
+
                 // Sort order
                 DropdownButton<SortOrder>(
                   value: _sortOrder,
@@ -272,12 +278,12 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
           ),
           const SizedBox(height: 16),
           Text(
-            _transactions.isEmpty 
-              ? 'No transactions found' 
-              : 'No transactions match your filter',
+            _transactions.isEmpty
+                ? 'No transactions found'
+                : 'No transactions match your filter',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: Colors.grey[600],
-            ),
+                  color: Colors.grey[600],
+                ),
           ),
           if (_transactions.isNotEmpty) ...[
             const SizedBox(height: 8),
@@ -317,11 +323,11 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
       transaction.amount.abs(),
       widget.wallet.runtimeType,
     );
-    
-    final statusColor = transaction.isPending 
-        ? Colors.orange 
-        : transaction.isConfirmed 
-            ? Colors.green 
+
+    final statusColor = transaction.isPending
+        ? Colors.orange
+        : transaction.isConfirmed
+            ? Colors.green
             : Colors.grey;
 
     return Card(
@@ -330,8 +336,8 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
         leading: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: isReceived 
-                ? Colors.green.withOpacity(0.1) 
+            color: isReceived
+                ? Colors.green.withOpacity(0.1)
                 : Colors.red.withOpacity(0.1),
             borderRadius: BorderRadius.circular(8),
           ),
@@ -350,7 +356,9 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
               ),
             ),
             const SizedBox(width: 8),
-            if (transaction.type != 0) // Show type indicator for non-standard transactions
+            if (transaction.type !=
+                TxType
+                    .Unset) // Show type indicator for non-standard transactions
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
@@ -362,13 +370,13 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      _getTransactionTypeIcon(transaction.type),
+                      _getTransactionTypeIcon(transaction.type.value),
                       size: 12,
                       color: Colors.blue,
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      _getTransactionTypeShortName(transaction.type),
+                      _getTransactionTypeShortName(transaction.type.value),
                       style: const TextStyle(
                         fontSize: 9,
                         color: Colors.blue,
@@ -387,7 +395,7 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
                 border: Border.all(color: statusColor.withOpacity(0.3)),
               ),
               child: Text(
-                transaction.isPending 
+                transaction.isPending
                     ? 'Pending (${transaction.confirmations}/${transaction.minConfirms.value})'
                     : 'Confirmed',
                 style: TextStyle(
@@ -442,31 +450,6 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
       return '${difference.inMinutes} minute${difference.inMinutes == 1 ? '' : 's'} ago';
     } else {
       return 'Just now';
-    }
-  }
-
-  String _getTransactionTypeDisplayName(int type) {
-    switch (type) {
-      case 0:
-        return 'Standard Transaction';
-      case 1:
-        return 'Miner Reward';
-      case 2:
-        return 'Protocol Transaction';
-      case 3:
-        return 'Transfer Transaction';
-      case 4:
-        return 'Convert Transaction';
-      case 5:
-        return 'Burn Transaction';
-      case 6:
-        return 'Stake Transaction';
-      case 7:
-        return 'Return Transaction';
-      case 8:
-        return 'Audit Transaction';
-      default:
-        return 'Unknown Type ($type)';
     }
   }
 
@@ -545,14 +528,14 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
                     _buildDetailItem(
                       'Direction',
                       transaction.isSpend ? 'Sent' : 'Received',
-                      icon: transaction.isSpend 
-                          ? Icons.call_made 
+                      icon: transaction.isSpend
+                          ? Icons.call_made
                           : Icons.call_received,
                     ),
                     _buildDetailItem(
                       'Transaction Type',
-                      _getTransactionTypeDisplayName(transaction.type),
-                      icon: _getTransactionTypeIcon(transaction.type),
+                      transaction.type.displayName,
+                      icon: _getTransactionTypeIcon(transaction.type.value),
                     ),
                     _buildDetailItem(
                       'Amount',
@@ -564,7 +547,7 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
                     ),
                     _buildDetailItem(
                       'Status',
-                      transaction.isPending 
+                      transaction.isPending
                           ? 'Pending (${transaction.confirmations}/${transaction.minConfirms.value})'
                           : 'Confirmed (${transaction.confirmations} confirmations)',
                     ),
@@ -622,7 +605,12 @@ class _DisplayTransactionsViewState extends State<DisplayTransactionsView> {
     );
   }
 
-  Widget _buildDetailItem(String label, String value, {IconData? icon, bool copyable = false}) {
+  Widget _buildDetailItem(
+    String label,
+    String value, {
+    IconData? icon,
+    bool copyable = false,
+  }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(12),
@@ -738,7 +726,7 @@ enum TransactionTypeFilter {
         return 'Burn';
     }
   }
-  
+
   bool matches(int type) {
     switch (this) {
       case TransactionTypeFilter.all:
