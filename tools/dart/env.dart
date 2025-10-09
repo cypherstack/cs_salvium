@@ -1,7 +1,7 @@
 import 'dart:io';
 
 const kMoneroCRepo = "https://github.com/salvium/monero_c";
-const kMoneroCHash = "b7bdba90249d588dee0c75699d756016b5ca18a5";
+const kMoneroCHash = "9d4fc57f65dd5682e4d44f9c9caa03180e890a55";
 
 final envProjectDir =
     File.fromUri(Platform.script).parent.parent.parent.parent.path;

@@ -2484,7 +2484,7 @@ class FfiSalviumC {
   late final _SALVIUM_Wallet_secretGenerateImage =
       _SALVIUM_Wallet_secretGenerateImagePtr.asFunction<
           ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
-
+    
   void SALVIUM_Wallet_stop(
     ffi.Pointer<ffi.Void> wallet_ptr,
   ) {
