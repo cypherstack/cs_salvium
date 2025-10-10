@@ -5267,21 +5267,6 @@ class FfiSalviumC {
       _SALVIUM_WalletManager_networkDifficultyPtr.asFunction<
           int Function(ffi.Pointer<ffi.Void>)>();
 
-  double SALVIUM_WalletManager_miningHashRate(
-    ffi.Pointer<ffi.Void> wm_ptr,
-  ) {
-    return _SALVIUM_WalletManager_miningHashRate(
-      wm_ptr,
-    );
-  }
-
-  late final _SALVIUM_WalletManager_miningHashRatePtr =
-      _lookup<ffi.NativeFunction<ffi.Double Function(ffi.Pointer<ffi.Void>)>>(
-          'SALVIUM_WalletManager_miningHashRate');
-  late final _SALVIUM_WalletManager_miningHashRate =
-      _SALVIUM_WalletManager_miningHashRatePtr.asFunction<
-          double Function(ffi.Pointer<ffi.Void>)>();
-
   int SALVIUM_WalletManager_blockTarget(
     ffi.Pointer<ffi.Void> wm_ptr,
   ) {
@@ -5296,68 +5281,6 @@ class FfiSalviumC {
   late final _SALVIUM_WalletManager_blockTarget =
       _SALVIUM_WalletManager_blockTargetPtr.asFunction<
           int Function(ffi.Pointer<ffi.Void>)>();
-
-  bool SALVIUM_WalletManager_isMining(
-    ffi.Pointer<ffi.Void> wm_ptr,
-  ) {
-    return _SALVIUM_WalletManager_isMining(
-      wm_ptr,
-    );
-  }
-
-  late final _SALVIUM_WalletManager_isMiningPtr =
-      _lookup<ffi.NativeFunction<ffi.Bool Function(ffi.Pointer<ffi.Void>)>>(
-          'SALVIUM_WalletManager_isMining');
-  late final _SALVIUM_WalletManager_isMining =
-      _SALVIUM_WalletManager_isMiningPtr.asFunction<
-          bool Function(ffi.Pointer<ffi.Void>)>();
-
-  bool SALVIUM_WalletManager_startMining(
-    ffi.Pointer<ffi.Void> wm_ptr,
-    ffi.Pointer<ffi.Char> address,
-    int threads,
-    bool backgroundMining,
-    bool ignoreBattery,
-  ) {
-    return _SALVIUM_WalletManager_startMining(
-      wm_ptr,
-      address,
-      threads,
-      backgroundMining,
-      ignoreBattery,
-    );
-  }
-
-  late final _SALVIUM_WalletManager_startMiningPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Bool Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Char>,
-              ffi.Uint32,
-              ffi.Bool,
-              ffi.Bool)>>('SALVIUM_WalletManager_startMining');
-  late final _SALVIUM_WalletManager_startMining =
-      _SALVIUM_WalletManager_startMiningPtr.asFunction<
-          bool Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Char>, int, bool, bool)>();
-
-  bool SALVIUM_WalletManager_stopMining(
-    ffi.Pointer<ffi.Void> wm_ptr,
-    ffi.Pointer<ffi.Char> address,
-  ) {
-    return _SALVIUM_WalletManager_stopMining(
-      wm_ptr,
-      address,
-    );
-  }
-
-  late final _SALVIUM_WalletManager_stopMiningPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Bool Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Char>)>>('SALVIUM_WalletManager_stopMining');
-  late final _SALVIUM_WalletManager_stopMining =
-      _SALVIUM_WalletManager_stopMiningPtr.asFunction<
-          bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Char>)>();
 
   ffi.Pointer<ffi.Char> SALVIUM_WalletManager_resolveOpenAlias(
     ffi.Pointer<ffi.Void> wm_ptr,
