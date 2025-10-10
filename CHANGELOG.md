@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`cs_salvium_flutter_libs` - `v2.0.0`](#cs_salvium_flutter_libs---v200)
+
+---
+
+#### `cs_salvium_flutter_libs` - `v2.0.0`
+
+ - Bump "cs_salvium_flutter_libs" to `2.0.0`.
+
+
+## 2025-10-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`cs_salvium` - `v2.0.0`](#cs_salvium---v200)
 
 ---
