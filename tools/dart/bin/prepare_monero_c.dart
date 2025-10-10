@@ -20,7 +20,7 @@ void main() async {
       'clone',
       kMoneroCRepo,
       '--branch',
-      'apple-frameworks',
+      'wallet_api_carrot_fixes',
     ]);
 
     // Change directory to MONERO_C_DIR
@@ -50,5 +50,15 @@ void main() async {
 
     // Apply patches
     await runAsync('./apply_patches.sh', ['salvium']);
+
+    // Apply fix-av.patch to salvium_c.
+    final patchPath = '$envProjectDir/patches/fix-av.patch';
+
+    l('Applying fix-av.patch to salvium_c...');
+    await runAsync('git', [
+      'apply',
+      '--whitespace=nowarn',
+      patchPath,
+    ]);
   }
 }

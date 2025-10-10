@@ -400,6 +400,17 @@ abstract class Wallet {
     bool sweep = false,
   });
 
+  /// Create a single recipient transaction.
+  ///
+  /// Returns a [PendingTransaction], required for [commitTx].
+  Future<PendingTransaction> createStakeTx({
+    required Recipient output,
+    required TransactionPriority priority,
+    required int accountIndex,
+    List<Output>? preferredInputs,
+    String paymentId = "",
+  });
+
   /// Create a multi recipient transaction.
   ///
   /// Returns a [PendingTransaction], required for [commitTx].

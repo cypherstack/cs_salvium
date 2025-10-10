@@ -1,4 +1,5 @@
 import 'package:cs_salvium/cs_salvium.dart';
+import 'package:cs_salvium/src/enums/tx_type.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -19,6 +20,8 @@ void main() {
         key: 'transaction_key',
         timeStamp: DateTime.now(),
         minConfirms: MinConfirms.salvium,
+        asset: '',
+        type: TxType.Unset,
       );
 
       expect(transaction.displayLabel, 'Transaction 1');
@@ -52,6 +55,8 @@ void main() {
           key: 'transaction_key',
           timeStamp: DateTime.now(),
           minConfirms: MinConfirms.salvium,
+          asset: '',
+          type: TxType.Unset,
         ),
         throwsA(
           isA<Exception>().having(
@@ -80,6 +85,8 @@ void main() {
           key: 'transaction_key',
           timeStamp: DateTime.now(),
           minConfirms: MinConfirms.salvium,
+          asset: '',
+          type: TxType.Unset,
         ),
         throwsA(
           isA<Exception>().having(
@@ -108,6 +115,8 @@ void main() {
           key: 'transaction_key',
           timeStamp: DateTime.now(),
           minConfirms: MinConfirms.salvium,
+          asset: '',
+          type: TxType.Unset,
         ),
         throwsA(
           isA<Exception>().having(
@@ -136,6 +145,8 @@ void main() {
           key: 'transaction_key',
           timeStamp: DateTime.now(),
           minConfirms: MinConfirms.salvium,
+          asset: '',
+          type: TxType.Unset,
         ),
         throwsA(
           isA<Exception>().having(
@@ -163,6 +174,8 @@ void main() {
         key: 'transaction_key',
         timeStamp: DateTime.now(),
         minConfirms: MinConfirms.salvium,
+        asset: '',
+        type: TxType.Unset,
       );
 
       expect(transaction.isConfirmed, true);
@@ -184,6 +197,8 @@ void main() {
         key: 'transaction_key',
         timeStamp: DateTime.now(),
         minConfirms: MinConfirms.salvium,
+        asset: '',
+        type: TxType.Unset,
       );
 
       expect(transaction.isPending, true);

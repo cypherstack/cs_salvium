@@ -1,0 +1,83 @@
+diff --git a/salvium_libwallet2_api_c/salvium_libwallet2_api_c.exp b/salvium_libwallet2_api_c/salvium_libwallet2_api_c.exp
+index 0d5de30..a83ac9f 100644
+--- a/salvium_libwallet2_api_c/salvium_libwallet2_api_c.exp
++++ b/salvium_libwallet2_api_c/salvium_libwallet2_api_c.exp
+@@ -289,11 +289,7 @@ _SALVIUM_WalletManager_setDaemonAddress
+ _SALVIUM_WalletManager_blockchainHeight
+ _SALVIUM_WalletManager_blockchainTargetHeight
+ _SALVIUM_WalletManager_networkDifficulty
+-_SALVIUM_WalletManager_miningHashRate
+ _SALVIUM_WalletManager_blockTarget
+-_SALVIUM_WalletManager_isMining
+-_SALVIUM_WalletManager_startMining
+-_SALVIUM_WalletManager_stopMining
+ _SALVIUM_WalletManager_resolveOpenAlias
+ _SALVIUM_WalletManager_setProxy
+ _SALVIUM_WalletManagerFactory_getWalletManager
+diff --git a/salvium_libwallet2_api_c/src/main/cpp/wallet2_api_c.cpp b/salvium_libwallet2_api_c/src/main/cpp/wallet2_api_c.cpp
+index 3b8a52c..4dddb35 100644
+--- a/salvium_libwallet2_api_c/src/main/cpp/wallet2_api_c.cpp
++++ b/salvium_libwallet2_api_c/src/main/cpp/wallet2_api_c.cpp
+@@ -2473,13 +2473,6 @@ uint64_t SALVIUM_WalletManager_networkDifficulty(void* wm_ptr) {
+     return wm->networkDifficulty();
+     DEBUG_END()
+ }
+-//     virtual double miningHashRate() = 0;
+-double SALVIUM_WalletManager_miningHashRate(void* wm_ptr) {
+-    DEBUG_START()
+-    Monero::WalletManager *wm = reinterpret_cast<Monero::WalletManager*>(wm_ptr);
+-    return wm->miningHashRate();
+-    DEBUG_END()
+-}
+ //     virtual uint64_t blockTarget() = 0;
+ uint64_t SALVIUM_WalletManager_blockTarget(void* wm_ptr) {
+     DEBUG_START()
+@@ -2487,27 +2480,6 @@ uint64_t SALVIUM_WalletManager_blockTarget(void* wm_ptr) {
+     return wm->blockTarget();
+     DEBUG_END()
+ }
+-//     virtual bool isMining() = 0;
+-bool SALVIUM_WalletManager_isMining(void* wm_ptr) {
+-    DEBUG_START()
+-    Monero::WalletManager *wm = reinterpret_cast<Monero::WalletManager*>(wm_ptr);
+-    return wm->isMining();
+-    DEBUG_END()
+-}
+-//     virtual bool startMining(const std::string &address, uint32_t threads = 1, bool background_mining = false, bool ignore_battery = true) = 0;
+-bool SALVIUM_WalletManager_startMining(void* wm_ptr, const char* address, uint32_t threads, bool backgroundMining, bool ignoreBattery) {
+-    DEBUG_START()
+-    Monero::WalletManager *wm = reinterpret_cast<Monero::WalletManager*>(wm_ptr);
+-    return wm->startMining(std::string(address), threads, backgroundMining, ignoreBattery);
+-    DEBUG_END()
+-}
+-//     virtual bool stopMining() = 0;
+-bool SALVIUM_WalletManager_stopMining(void* wm_ptr, const char* address) {
+-    DEBUG_START()
+-    Monero::WalletManager *wm = reinterpret_cast<Monero::WalletManager*>(wm_ptr);
+-    return wm->stopMining();
+-    DEBUG_END()
+-}
+ //     virtual std::string resolveOpenAlias(const std::string &address, bool &dnssec_valid) const = 0;
+ const char* SALVIUM_WalletManager_resolveOpenAlias(void* wm_ptr, const char* address, bool dnssec_valid) {
+     DEBUG_START()
+diff --git a/salvium_libwallet2_api_c/src/main/cpp/wallet2_api_c.h b/salvium_libwallet2_api_c/src/main/cpp/wallet2_api_c.h
+index baaca56..1d3ac73 100644
+--- a/salvium_libwallet2_api_c/src/main/cpp/wallet2_api_c.h
++++ b/salvium_libwallet2_api_c/src/main/cpp/wallet2_api_c.h
+@@ -988,16 +988,8 @@ extern ADDAPI uint64_t SALVIUM_WalletManager_blockchainHeight(void* wm_ptr);
+ extern ADDAPI uint64_t SALVIUM_WalletManager_blockchainTargetHeight(void* wm_ptr);
+ //     virtual uint64_t networkDifficulty() = 0;
+ extern ADDAPI uint64_t SALVIUM_WalletManager_networkDifficulty(void* wm_ptr);
+-//     virtual double miningHashRate() = 0;
+-extern ADDAPI double SALVIUM_WalletManager_miningHashRate(void* wm_ptr);
+ //     virtual uint64_t blockTarget() = 0;
+ extern ADDAPI uint64_t SALVIUM_WalletManager_blockTarget(void* wm_ptr);
+-//     virtual bool isMining() = 0;
+-extern ADDAPI bool SALVIUM_WalletManager_isMining(void* wm_ptr);
+-//     virtual bool startMining(const std::string &address, uint32_t threads = 1, bool background_mining = false, bool ignore_battery = true) = 0;
+-extern ADDAPI bool SALVIUM_WalletManager_startMining(void* wm_ptr, const char* address, uint32_t threads, bool backgroundMining, bool ignoreBattery);
+-//     virtual bool stopMining() = 0;
+-extern ADDAPI bool SALVIUM_WalletManager_stopMining(void* wm_ptr, const char* address);
+ //     virtual std::string resolveOpenAlias(const std::string &address, bool &dnssec_valid) const = 0;
+ extern ADDAPI const char* SALVIUM_WalletManager_resolveOpenAlias(void* wm_ptr, const char* address, bool dnssec_valid);
+ //     static std::tuple<bool, std::string, std::string, std::string, std::string> checkUpdates(

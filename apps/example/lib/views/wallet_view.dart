@@ -1,8 +1,11 @@
 import 'package:cs_salvium/cs_salvium.dart';
 import 'package:flutter/material.dart';
 
+import '../app_config.dart';
 import '../widgets/info_item.dart';
 import 'create_transaction_view.dart';
+import 'create_stake_view.dart';
+import 'display_transactions_view.dart';
 
 class WalletView extends StatefulWidget {
   const WalletView({super.key, required this.wallet});
@@ -140,17 +143,64 @@ class _WalletViewState extends State<WalletView> {
       ),
       body: Column(
         children: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute<dynamic>(
-                  builder: (context) => CreateTransactionView(
-                    wallet: widget.wallet,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<dynamic>(
+                          builder: (context) => CreateTransactionView(
+                            wallet: widget.wallet,
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.send),
+                    label: const Text("Send"),
                   ),
                 ),
-              );
-            },
-            child: const Text("Send"),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<dynamic>(
+                          builder: (context) => DisplayTransactionsView(
+                            wallet: widget.wallet,
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.receipt_long),
+                    label: const Text("Transactions"),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<dynamic>(
+                          builder: (context) => CreateStakeView(
+                            wallet: widget.wallet,
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.savings),
+                    label: const Text("Stake"),
+                  ),
+                ),
+              ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.all(16),
@@ -182,6 +232,7 @@ class _WalletViewState extends State<WalletView> {
             child: ListView(
               shrinkWrap: true,
               children: [
+                InfoItem(label: "Network Type", value: AppConfig.modeString),
                 InfoItem(label: "Is view only", value: isViewOnly),
                 InfoItem(label: "Connected", value: connected),
                 InfoItem(label: "outputCount", value: outputCount),

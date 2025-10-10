@@ -47,6 +47,7 @@ class _CreateWalletViewState extends State<CreateWalletView> {
             path: path,
             password: password,
             seedType: _selectedSalType!,
+            networkType: 1 // testnet
           );
           break;
 

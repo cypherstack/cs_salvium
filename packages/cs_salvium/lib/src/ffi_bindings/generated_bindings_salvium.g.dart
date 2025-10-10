@@ -4,7 +4,7 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
-/// salvium_c bindings
+/// salvium monero_c bindings
 class FfiSalviumC {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
@@ -547,6 +547,20 @@ class FfiSalviumC {
       _SALVIUM_TransactionInfo_isCoinbasePtr.asFunction<
           bool Function(ffi.Pointer<ffi.Void>)>();
 
+  int SALVIUM_TransactionInfo_type(
+    ffi.Pointer<ffi.Void> txInfo_ptr,
+  ) {
+    return _SALVIUM_TransactionInfo_type(
+      txInfo_ptr,
+    );
+  }
+
+  late final _SALVIUM_TransactionInfo_typePtr =
+      _lookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
+          'SALVIUM_TransactionInfo_type');
+  late final _SALVIUM_TransactionInfo_type = _SALVIUM_TransactionInfo_typePtr
+      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+
   int SALVIUM_TransactionInfo_amount(
     ffi.Pointer<ffi.Void> txInfo_ptr,
   ) {
@@ -590,6 +604,21 @@ class FfiSalviumC {
   late final _SALVIUM_TransactionInfo_blockHeight =
       _SALVIUM_TransactionInfo_blockHeightPtr.asFunction<
           int Function(ffi.Pointer<ffi.Void>)>();
+
+  ffi.Pointer<ffi.Char> SALVIUM_TransactionInfo_asset(
+    ffi.Pointer<ffi.Void> txInfo_ptr,
+  ) {
+    return _SALVIUM_TransactionInfo_asset(
+      txInfo_ptr,
+    );
+  }
+
+  late final _SALVIUM_TransactionInfo_assetPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<ffi.Void>)>>('SALVIUM_TransactionInfo_asset');
+  late final _SALVIUM_TransactionInfo_asset = _SALVIUM_TransactionInfo_assetPtr
+      .asFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
 
   ffi.Pointer<ffi.Char> SALVIUM_TransactionInfo_description(
     ffi.Pointer<ffi.Void> txInfo_ptr,
@@ -781,6 +810,24 @@ class FfiSalviumC {
               ffi.Int)>>('SALVIUM_TransactionInfo_transfers_address');
   late final _SALVIUM_TransactionInfo_transfers_address =
       _SALVIUM_TransactionInfo_transfers_addressPtr.asFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>, int)>();
+
+  ffi.Pointer<ffi.Char> SALVIUM_TransactionInfo_transfers_asset(
+    ffi.Pointer<ffi.Void> txInfo_ptr,
+    int asset,
+  ) {
+    return _SALVIUM_TransactionInfo_transfers_asset(
+      txInfo_ptr,
+      asset,
+    );
+  }
+
+  late final _SALVIUM_TransactionInfo_transfers_assetPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>,
+              ffi.Int)>>('SALVIUM_TransactionInfo_transfers_asset');
+  late final _SALVIUM_TransactionInfo_transfers_asset =
+      _SALVIUM_TransactionInfo_transfers_assetPtr.asFunction<
           ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>, int)>();
 
   int SALVIUM_TransactionHistory_count(
@@ -1414,6 +1461,35 @@ class FfiSalviumC {
   late final _SALVIUM_CoinsInfo_description = _SALVIUM_CoinsInfo_descriptionPtr
       .asFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
 
+  ffi.Pointer<ffi.Char> SALVIUM_CoinsInfo_asset(
+    ffi.Pointer<ffi.Void> coinsInfo_ptr,
+  ) {
+    return _SALVIUM_CoinsInfo_asset(
+      coinsInfo_ptr,
+    );
+  }
+
+  late final _SALVIUM_CoinsInfo_assetPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<ffi.Void>)>>('SALVIUM_CoinsInfo_asset');
+  late final _SALVIUM_CoinsInfo_asset = _SALVIUM_CoinsInfo_assetPtr.asFunction<
+      ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
+
+  int SALVIUM_CoinsInfo_type(
+    ffi.Pointer<ffi.Void> coinsInfo_ptr,
+  ) {
+    return _SALVIUM_CoinsInfo_type(
+      coinsInfo_ptr,
+    );
+  }
+
+  late final _SALVIUM_CoinsInfo_typePtr =
+      _lookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
+          'SALVIUM_CoinsInfo_type');
+  late final _SALVIUM_CoinsInfo_type = _SALVIUM_CoinsInfo_typePtr.asFunction<
+      int Function(ffi.Pointer<ffi.Void>)>();
+
   int SALVIUM_Coins_count(
     ffi.Pointer<ffi.Void> coins_ptr,
   ) {
@@ -1806,35 +1882,43 @@ class FfiSalviumC {
 
   ffi.Pointer<ffi.Char> SALVIUM_SubaddressAccountRow_getBalance(
     ffi.Pointer<ffi.Void> subaddressAccountRow_ptr,
+    ffi.Pointer<ffi.Char> asset,
   ) {
     return _SALVIUM_SubaddressAccountRow_getBalance(
       subaddressAccountRow_ptr,
+      asset,
     );
   }
 
   late final _SALVIUM_SubaddressAccountRow_getBalancePtr = _lookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>>(
+              ffi.Pointer<ffi.Char> Function(
+                  ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Char>)>>(
       'SALVIUM_SubaddressAccountRow_getBalance');
   late final _SALVIUM_SubaddressAccountRow_getBalance =
       _SALVIUM_SubaddressAccountRow_getBalancePtr.asFunction<
-          ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Char>)>();
 
   ffi.Pointer<ffi.Char> SALVIUM_SubaddressAccountRow_getUnlockedBalance(
     ffi.Pointer<ffi.Void> subaddressAccountRow_ptr,
+    ffi.Pointer<ffi.Char> asset,
   ) {
     return _SALVIUM_SubaddressAccountRow_getUnlockedBalance(
       subaddressAccountRow_ptr,
+      asset,
     );
   }
 
   late final _SALVIUM_SubaddressAccountRow_getUnlockedBalancePtr = _lookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>>(
+              ffi.Pointer<ffi.Char> Function(
+                  ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Char>)>>(
       'SALVIUM_SubaddressAccountRow_getUnlockedBalance');
   late final _SALVIUM_SubaddressAccountRow_getUnlockedBalance =
       _SALVIUM_SubaddressAccountRow_getUnlockedBalancePtr.asFunction<
-          ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Char>)>();
 
   int SALVIUM_SubaddressAccountRow_getRowId(
     ffi.Pointer<ffi.Void> subaddressAccountRow_ptr,
@@ -2335,6 +2419,70 @@ class FfiSalviumC {
       'SALVIUM_Wallet_publicMultisigSignerKey');
   late final _SALVIUM_Wallet_publicMultisigSignerKey =
       _SALVIUM_Wallet_publicMultisigSignerKeyPtr.asFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
+
+  ffi.Pointer<ffi.Char> SALVIUM_Wallet_secretViewBalance(
+    ffi.Pointer<ffi.Void> wallet_ptr,
+  ) {
+    return _SALVIUM_Wallet_secretViewBalance(
+      wallet_ptr,
+    );
+  }
+
+  late final _SALVIUM_Wallet_secretViewBalancePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<ffi.Void>)>>('SALVIUM_Wallet_secretViewBalance');
+  late final _SALVIUM_Wallet_secretViewBalance =
+      _SALVIUM_Wallet_secretViewBalancePtr.asFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
+
+  ffi.Pointer<ffi.Char> SALVIUM_Wallet_secretProveSpend(
+    ffi.Pointer<ffi.Void> wallet_ptr,
+  ) {
+    return _SALVIUM_Wallet_secretProveSpend(
+      wallet_ptr,
+    );
+  }
+
+  late final _SALVIUM_Wallet_secretProveSpendPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<ffi.Void>)>>('SALVIUM_Wallet_secretProveSpend');
+  late final _SALVIUM_Wallet_secretProveSpend =
+      _SALVIUM_Wallet_secretProveSpendPtr.asFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
+
+  ffi.Pointer<ffi.Char> SALVIUM_Wallet_secretGenerateAddress(
+    ffi.Pointer<ffi.Void> wallet_ptr,
+  ) {
+    return _SALVIUM_Wallet_secretGenerateAddress(
+      wallet_ptr,
+    );
+  }
+
+  late final _SALVIUM_Wallet_secretGenerateAddressPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<ffi.Void>)>>('SALVIUM_Wallet_secretGenerateAddress');
+  late final _SALVIUM_Wallet_secretGenerateAddress =
+      _SALVIUM_Wallet_secretGenerateAddressPtr.asFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
+
+  ffi.Pointer<ffi.Char> SALVIUM_Wallet_secretGenerateImage(
+    ffi.Pointer<ffi.Void> wallet_ptr,
+  ) {
+    return _SALVIUM_Wallet_secretGenerateImage(
+      wallet_ptr,
+    );
+  }
+
+  late final _SALVIUM_Wallet_secretGenerateImagePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<ffi.Void>)>>('SALVIUM_Wallet_secretGenerateImage');
+  late final _SALVIUM_Wallet_secretGenerateImage =
+      _SALVIUM_Wallet_secretGenerateImagePtr.asFunction<
           ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
 
   void SALVIUM_Wallet_stop(
@@ -3529,6 +3677,55 @@ class FfiSalviumC {
               ffi.Pointer<ffi.Char>,
               ffi.Pointer<ffi.Char>)>();
 
+  ffi.Pointer<ffi.Void> SALVIUM_Wallet_createStakeTransaction(
+    ffi.Pointer<ffi.Void> wallet_ptr,
+    ffi.Pointer<ffi.Char> dst_addr,
+    ffi.Pointer<ffi.Char> payment_id,
+    int amount,
+    int mixin_count,
+    int pendingTransactionPriority,
+    int subaddr_account,
+    ffi.Pointer<ffi.Char> preferredInputs,
+    ffi.Pointer<ffi.Char> separator,
+  ) {
+    return _SALVIUM_Wallet_createStakeTransaction(
+      wallet_ptr,
+      dst_addr,
+      payment_id,
+      amount,
+      mixin_count,
+      pendingTransactionPriority,
+      subaddr_account,
+      preferredInputs,
+      separator,
+    );
+  }
+
+  late final _SALVIUM_Wallet_createStakeTransactionPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Char>,
+              ffi.Pointer<ffi.Char>,
+              ffi.Uint64,
+              ffi.Uint32,
+              ffi.Int,
+              ffi.Uint32,
+              ffi.Pointer<ffi.Char>,
+              ffi.Pointer<ffi.Char>)>>('SALVIUM_Wallet_createStakeTransaction');
+  late final _SALVIUM_Wallet_createStakeTransaction =
+      _SALVIUM_Wallet_createStakeTransactionPtr.asFunction<
+          ffi.Pointer<ffi.Void> Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Char>,
+              ffi.Pointer<ffi.Char>,
+              int,
+              int,
+              int,
+              int,
+              ffi.Pointer<ffi.Char>,
+              ffi.Pointer<ffi.Char>)>();
+
   ffi.Pointer<ffi.Void> SALVIUM_Wallet_loadUnsignedTx(
     ffi.Pointer<ffi.Void> wallet_ptr,
     ffi.Pointer<ffi.Char> unsigned_filename,
@@ -4522,6 +4719,51 @@ class FfiSalviumC {
           void Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.UnsignedChar>, int)>();
 
+  void SALVIUM_Wallet_setLedgerCallback(
+    ffi.Pointer<
+            ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.UnsignedChar> command,
+                    ffi.UnsignedInt cmd_len)>>
+        sendToLedgerDevice,
+  ) {
+    return _SALVIUM_Wallet_setLedgerCallback(
+      sendToLedgerDevice,
+    );
+  }
+
+  late final _SALVIUM_Wallet_setLedgerCallbackPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Pointer<
+                      ffi.NativeFunction<
+                          ffi.Void Function(
+                              ffi.Pointer<ffi.UnsignedChar> command,
+                              ffi.UnsignedInt cmd_len)>>)>>(
+      'SALVIUM_Wallet_setLedgerCallback');
+  late final _SALVIUM_Wallet_setLedgerCallback =
+      _SALVIUM_Wallet_setLedgerCallbackPtr.asFunction<
+          void Function(
+              ffi.Pointer<
+                  ffi.NativeFunction<
+                      ffi.Void Function(ffi.Pointer<ffi.UnsignedChar> command,
+                          ffi.UnsignedInt cmd_len)>>)>();
+
+  ffi.Pointer<ffi.Char> SALVIUM_Wallet_serializeCacheToJson(
+    ffi.Pointer<ffi.Void> wallet_ptr,
+  ) {
+    return _SALVIUM_Wallet_serializeCacheToJson(
+      wallet_ptr,
+    );
+  }
+
+  late final _SALVIUM_Wallet_serializeCacheToJsonPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<ffi.Void>)>>('SALVIUM_Wallet_serializeCacheToJson');
+  late final _SALVIUM_Wallet_serializeCacheToJson =
+      _SALVIUM_Wallet_serializeCacheToJsonPtr.asFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
+
   ffi.Pointer<ffi.Void> SALVIUM_WalletManager_createWallet(
     ffi.Pointer<ffi.Void> wm_ptr,
     ffi.Pointer<ffi.Char> path,
@@ -5025,21 +5267,6 @@ class FfiSalviumC {
       _SALVIUM_WalletManager_networkDifficultyPtr.asFunction<
           int Function(ffi.Pointer<ffi.Void>)>();
 
-  double SALVIUM_WalletManager_miningHashRate(
-    ffi.Pointer<ffi.Void> wm_ptr,
-  ) {
-    return _SALVIUM_WalletManager_miningHashRate(
-      wm_ptr,
-    );
-  }
-
-  late final _SALVIUM_WalletManager_miningHashRatePtr =
-      _lookup<ffi.NativeFunction<ffi.Double Function(ffi.Pointer<ffi.Void>)>>(
-          'SALVIUM_WalletManager_miningHashRate');
-  late final _SALVIUM_WalletManager_miningHashRate =
-      _SALVIUM_WalletManager_miningHashRatePtr.asFunction<
-          double Function(ffi.Pointer<ffi.Void>)>();
-
   int SALVIUM_WalletManager_blockTarget(
     ffi.Pointer<ffi.Void> wm_ptr,
   ) {
@@ -5054,68 +5281,6 @@ class FfiSalviumC {
   late final _SALVIUM_WalletManager_blockTarget =
       _SALVIUM_WalletManager_blockTargetPtr.asFunction<
           int Function(ffi.Pointer<ffi.Void>)>();
-
-  bool SALVIUM_WalletManager_isMining(
-    ffi.Pointer<ffi.Void> wm_ptr,
-  ) {
-    return _SALVIUM_WalletManager_isMining(
-      wm_ptr,
-    );
-  }
-
-  late final _SALVIUM_WalletManager_isMiningPtr =
-      _lookup<ffi.NativeFunction<ffi.Bool Function(ffi.Pointer<ffi.Void>)>>(
-          'SALVIUM_WalletManager_isMining');
-  late final _SALVIUM_WalletManager_isMining =
-      _SALVIUM_WalletManager_isMiningPtr.asFunction<
-          bool Function(ffi.Pointer<ffi.Void>)>();
-
-  bool SALVIUM_WalletManager_startMining(
-    ffi.Pointer<ffi.Void> wm_ptr,
-    ffi.Pointer<ffi.Char> address,
-    int threads,
-    bool backgroundMining,
-    bool ignoreBattery,
-  ) {
-    return _SALVIUM_WalletManager_startMining(
-      wm_ptr,
-      address,
-      threads,
-      backgroundMining,
-      ignoreBattery,
-    );
-  }
-
-  late final _SALVIUM_WalletManager_startMiningPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Bool Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Char>,
-              ffi.Uint32,
-              ffi.Bool,
-              ffi.Bool)>>('SALVIUM_WalletManager_startMining');
-  late final _SALVIUM_WalletManager_startMining =
-      _SALVIUM_WalletManager_startMiningPtr.asFunction<
-          bool Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Char>, int, bool, bool)>();
-
-  bool SALVIUM_WalletManager_stopMining(
-    ffi.Pointer<ffi.Void> wm_ptr,
-    ffi.Pointer<ffi.Char> address,
-  ) {
-    return _SALVIUM_WalletManager_stopMining(
-      wm_ptr,
-      address,
-    );
-  }
-
-  late final _SALVIUM_WalletManager_stopMiningPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Bool Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Char>)>>('SALVIUM_WalletManager_stopMining');
-  late final _SALVIUM_WalletManager_stopMining =
-      _SALVIUM_WalletManager_stopMiningPtr.asFunction<
-          bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Char>)>();
 
   ffi.Pointer<ffi.Char> SALVIUM_WalletManager_resolveOpenAlias(
     ffi.Pointer<ffi.Void> wm_ptr,

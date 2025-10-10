@@ -1,6 +1,7 @@
 import 'package:cs_salvium/cs_salvium.dart';
 import 'package:flutter/material.dart';
 
+import '../app_config.dart';
 import '../util.dart';
 import 'wallet_view.dart';
 
@@ -108,20 +109,13 @@ class _OpenWalletDialogState extends State<OpenWalletDialog> {
     final String daemonAddress;
     switch (type) {
       case "salvium":
-        daemonAddress = "localhost:19081"; // seed01.salvium.io seed02.salvium.io seed03.salvium.io
+        daemonAddress = AppConfig.rpcAddress;
         wallet = await SalviumWallet.loadWallet(
           path: path,
           password: pw,
+          networkType: AppConfig.network,
         );
         break;
-
-      // case "wownero":
-      //   daemonAddress = "wownero.stackwallet.com:34568";
-      //   wallet = await WowneroWallet.loadWallet(
-      //     path: path,
-      //     password: pw,
-      //   );
-      //   break;
 
       default:
         throw Exception("Unknown wallet type: $type");
@@ -129,7 +123,7 @@ class _OpenWalletDialogState extends State<OpenWalletDialog> {
     await wallet.connect(
       daemonAddress: daemonAddress,
       trusted: true,
-      useSSL: true,
+      useSSL: false,
     );
 
     return wallet;

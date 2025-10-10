@@ -1,5 +1,5 @@
 name: cs_salvium
-repository: https://github.com/cypherstack/cs_salvium
+repository: https://github.com/somerandomcryptoguy/cs_salvium
 
 packages:
   - packages/**

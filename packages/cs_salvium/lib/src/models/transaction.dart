@@ -1,8 +1,10 @@
 import '../../cs_salvium.dart';
+import '../enums/tx_type.dart';
 
 /// Represents a Monero (or Wownero) transaction for a given wallet.
 class Transaction {
   Transaction({
+    required this.asset,
     required this.displayLabel,
     required this.description,
     required this.fee,
@@ -17,12 +19,16 @@ class Transaction {
     required this.key,
     required this.timeStamp,
     required this.minConfirms,
+    required this.type,
   }) {
     if (fee.isNegative) throw Exception("negative fee");
     if (confirmations.isNegative) throw Exception("negative confirmations");
     if (accountIndex.isNegative) throw Exception("negative accountIndex");
     if (amount.isNegative) throw Exception("negative amount");
   }
+
+  /// The asset_type to display for the transaction, providing a human-readable identifier.
+  final String asset;
 
   /// A label to display for the transaction, providing a human-readable identifier.
   final String displayLabel;
@@ -44,6 +50,9 @@ class Transaction {
 
   /// The index of the account associated with this transaction.
   final int accountIndex;
+
+  /// The transaction type associated with this transaction.
+  final TxType type;
 
   /// An optional payment identifier, used to associate this transaction with a payment.
   final String paymentId;

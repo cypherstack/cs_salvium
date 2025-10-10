@@ -266,6 +266,43 @@ Pointer<Void> createTransaction(
   }
 }
 
+Pointer<Void> createStakeTransaction(
+  Pointer<Void> walletPointer, {
+  required String address,
+  required String paymentId,
+  required int amount,
+  required int pendingTransactionPriority,
+  required int subaddressAccount,
+  List<String> preferredInputs = const [],
+}) {
+  final addressPointer = address.toNativeUtf8().cast<Char>();
+  final paymentIdPointer = paymentId.toNativeUtf8().cast<Char>();
+  final preferredInputsPointer = preferredInputs
+      .join(
+        defaultSeparatorStr,
+      )
+      .toNativeUtf8()
+      .cast<Char>();
+
+  try {
+    return bindings.SALVIUM_Wallet_createStakeTransaction(
+      walletPointer,
+      addressPointer,
+      paymentIdPointer,
+      amount,
+      0, // mixin count/ring size. Ignored here, core code will use appropriate value
+      pendingTransactionPriority,
+      subaddressAccount,
+      preferredInputsPointer,
+      defaultSeparator,
+    );
+  } finally {
+    calloc.free(addressPointer);
+    calloc.free(paymentIdPointer);
+    calloc.free(preferredInputsPointer);
+  }
+}
+
 Pointer<Void> createTransactionMultiDest(
   Pointer<Void> walletPointer, {
   required List<String> addresses,
@@ -446,6 +483,10 @@ int getBlockHeightForCoinsInfo(Pointer<Void> coinsInfoPointer) {
   return bindings.SALVIUM_CoinsInfo_blockHeight(coinsInfoPointer);
 }
 
+int getTypeForCoinsInfo(Pointer<Void> coinsInfoPointer) {
+  return bindings.SALVIUM_CoinsInfo_type(coinsInfoPointer);
+}
+
 bool isUnlockedCoinsInfo(Pointer<Void> coinsInfoPointer) {
   return bindings.SALVIUM_CoinsInfo_unlocked(coinsInfoPointer);
 }
@@ -470,6 +511,13 @@ String getKeyImageForCoinsInfo(Pointer<Void> coinsInfoPointer) {
 
 String getHashForCoinsInfo(Pointer<Void> coinsInfoPointer) {
   final stringPointer = bindings.SALVIUM_CoinsInfo_hash(
+    coinsInfoPointer,
+  ).cast<Utf8>();
+  return convertAndFree(stringPointer);
+}
+
+String getAssetForCoinsInfo(Pointer<Void> coinsInfoPointer) {
+  final stringPointer = bindings.SALVIUM_CoinsInfo_asset(
     coinsInfoPointer,
   ).cast<Utf8>();
   return convertAndFree(stringPointer);
@@ -684,6 +732,10 @@ int getTransactionInfoAccount(Pointer<Void> txInfoPointer) {
   return bindings.SALVIUM_TransactionInfo_subaddrAccount(txInfoPointer);
 }
 
+int getTransactionInfoType(Pointer<Void> txInfoPointer) {
+  return bindings.SALVIUM_TransactionInfo_type(txInfoPointer);
+}
+
 Set<int> getTransactionSubaddressIndexes(Pointer<Void> txInfoPointer) {
   final stringPointer = bindings.SALVIUM_TransactionInfo_subaddrIndex(
     txInfoPointer,
@@ -697,6 +749,13 @@ Set<int> getTransactionSubaddressIndexes(Pointer<Void> txInfoPointer) {
 bool getTransactionInfoIsSpend(Pointer<Void> txInfoPointer) {
   // 0 is incoming, 1 is outgoing
   return bindings.SALVIUM_TransactionInfo_direction(txInfoPointer) == 1;
+}
+
+String getTransactionInfoAsset(Pointer<Void> txInfoPointer) {
+  final stringPointer = bindings.SALVIUM_TransactionInfo_asset(
+    txInfoPointer,
+  ).cast<Utf8>();
+  return convertAndFree(stringPointer);
 }
 
 String getTransactionInfoLabel(Pointer<Void> txInfoPointer) {

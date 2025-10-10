@@ -5,6 +5,7 @@ import 'package:cs_salvium/cs_salvium.dart';
 import 'package:cs_salvium_flutter_libs/cs_salvium_flutter_libs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'app_config.dart';
 
 import 'views/create_view_only_wallet_view.dart';
 import 'views/create_wallet_view.dart';
@@ -13,7 +14,11 @@ import 'views/restore_deterministic_from_spend_key_view.dart';
 import 'views/restore_from_keys_view.dart';
 import 'views/restore_from_seed_view.dart';
 
-void main() async {
+Future<void> main(List<String> args) async {
+
+  // Initialize config before launching app
+  await AppConfig.initialize(args);
+
   WidgetsFlutterBinding.ensureInitialized();
 
   Logging.useLogger = true;

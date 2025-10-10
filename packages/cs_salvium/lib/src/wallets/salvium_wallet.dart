@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 
 import '../../cs_salvium.dart';
 import '../deprecated/get_height_by_date.dart';
-import '../enums/salvium_seed_type.dart';
+import '../enums/tx_type.dart';
 import '../ffi_bindings/salvium_wallet_bindings.dart' as sal_ffi;
 import '../ffi_bindings/salvium_wallet_manager_bindings.dart' as sal_wm_ffi;
 
@@ -48,6 +48,7 @@ class SalviumWallet extends Wallet {
 
   Transaction _transactionFrom(Pointer<Void> infoPointer) {
     return Transaction(
+      asset: sal_ffi.getTransactionInfoAsset(infoPointer),
       displayLabel: sal_ffi.getTransactionInfoLabel(infoPointer),
       description: sal_ffi.getTransactionInfoDescription(infoPointer),
       fee: BigInt.from(sal_ffi.getTransactionInfoFee(infoPointer)),
@@ -63,6 +64,8 @@ class SalviumWallet extends Wallet {
       timeStamp: DateTime.fromMillisecondsSinceEpoch(
         sal_ffi.getTransactionInfoTimestamp(infoPointer) * 1000,
       ),
+      type: TxType.values.firstWhere(
+          (e) => e.value == sal_ffi.getTransactionInfoType(infoPointer)),
       minConfirms: MinConfirms.salvium,
     );
   }
@@ -171,7 +174,8 @@ class SalviumWallet extends Wallet {
       case SalviumSeedType.twentyFive:
         walletPointer = Pointer<Void>.fromAddress(
           await Isolate.run(
-            () => sal_wm_ffi.createWallet(
+            () => sal_wm_ffi
+                .createWallet(
                   Pointer.fromAddress(walletManagerPointerAddress),
                   path: path,
                   password: password,
@@ -236,7 +240,8 @@ class SalviumWallet extends Wallet {
     if (seedLength == 25) {
       walletPointer = Pointer<Void>.fromAddress(
         await Isolate.run(
-          () => sal_wm_ffi.recoveryWallet(
+          () => sal_wm_ffi
+              .recoveryWallet(
                 Pointer.fromAddress(walletManagerPointerAddress),
                 path: path,
                 password: password,
@@ -251,7 +256,8 @@ class SalviumWallet extends Wallet {
     } else if (seedLength == 16) {
       walletPointer = Pointer<Void>.fromAddress(
         await Isolate.run(
-          () => sal_wm_ffi.createWalletFromPolyseed(
+          () => sal_wm_ffi
+              .createWalletFromPolyseed(
                 Pointer.fromAddress(walletManagerPointerAddress),
                 path: path,
                 password: password,
@@ -265,20 +271,20 @@ class SalviumWallet extends Wallet {
               .address,
         ),
       );
-    // } else if (seedLength == 14) {
-    //   walletPointer = sal_ffi.restore14WordSeed(
-    //     path: path,
-    //     password: password,
-    //     language: seed, // yes the "language" param is misnamed
-    //     networkType: networkType,
-    //   );
-    //   restoreHeight = sal_ffi.getWalletRefreshFromBlockHeight(walletPointer);
-    //   // store seed with the correct cache key
-    //   sal_ffi.setWalletCacheAttribute(
-    //     walletPointer,
-    //     key: _kTwentyFiveWordSeedCacheKey,
-    //     value: seed,
-    //   );
+      // } else if (seedLength == 14) {
+      //   walletPointer = sal_ffi.restore14WordSeed(
+      //     path: path,
+      //     password: password,
+      //     language: seed, // yes the "language" param is misnamed
+      //     networkType: networkType,
+      //   );
+      //   restoreHeight = sal_ffi.getWalletRefreshFromBlockHeight(walletPointer);
+      //   // store seed with the correct cache key
+      //   sal_ffi.setWalletCacheAttribute(
+      //     walletPointer,
+      //     key: _kTwentyFiveWordSeedCacheKey,
+      //     value: seed,
+      //   );
     } else {
       throw Exception("Bad seed length: $seedLength");
     }
@@ -411,7 +417,8 @@ class SalviumWallet extends Wallet {
     final walletManagerPointerAddress = _walletManagerPointer.address;
     final walletPointer = Pointer<Void>.fromAddress(
       await Isolate.run(
-        () => sal_wm_ffi.createWalletFromKeys(
+        () => sal_wm_ffi
+            .createWalletFromKeys(
               Pointer.fromAddress(walletManagerPointerAddress),
               path: path,
               password: password,
@@ -482,7 +489,8 @@ class SalviumWallet extends Wallet {
     final walletManagerPointerAddress = _walletManagerPointer.address;
     final walletPointer = Pointer<Void>.fromAddress(
       await Isolate.run(
-        () => sal_wm_ffi.createDeterministicWalletFromSpendKey(
+        () => sal_wm_ffi
+            .createDeterministicWalletFromSpendKey(
               Pointer.fromAddress(walletManagerPointerAddress),
               path: path,
               password: password,
@@ -536,7 +544,8 @@ class SalviumWallet extends Wallet {
     final walletManagerPointerAddress = _walletManagerPointer.address;
     final walletPointer = Pointer<Void>.fromAddress(
       await Isolate.run(
-        () => sal_wm_ffi.openWallet(
+        () => sal_wm_ffi
+            .openWallet(
               Pointer.fromAddress(walletManagerPointerAddress),
               path: path,
               password: password,
@@ -1012,6 +1021,8 @@ class SalviumWallet extends Wallet {
       for (int i = 0; i < count; i++) {
         final coinInfoPointer = sal_ffi.getCoinInfoPointer(_coinsPointer!, i);
 
+        final asset_type = sal_ffi.getAssetForCoinsInfo(coinInfoPointer);
+        final tx_type = sal_ffi.getTypeForCoinsInfo(coinInfoPointer);
         final hash = sal_ffi.getHashForCoinsInfo(coinInfoPointer);
 
         if (hash.isNotEmpty) {
@@ -1149,6 +1160,60 @@ class SalviumWallet extends Wallet {
             address: output.address,
             paymentId: paymentId,
             amount: sweep ? 0 : output.amount.toInt(),
+            pendingTransactionPriority: priority.value,
+            subaddressAccount: accountIndex,
+            preferredInputs: inputsToUse.map((e) => e.keyImage).toList(),
+          );
+          return tx.address;
+        }),
+      );
+
+      sal_ffi.checkPendingTransactionStatus(pendingTxPointer);
+
+      return PendingTransaction(
+        amount:
+            BigInt.from(sal_ffi.getPendingTransactionAmount(pendingTxPointer)),
+        fee: BigInt.from(sal_ffi.getPendingTransactionFee(pendingTxPointer)),
+        txid: sal_ffi.getPendingTransactionTxid(pendingTxPointer),
+        hex: sal_ffi.getPendingTransactionHex(pendingTxPointer),
+        pointerAddress: pendingTxPointer.address,
+      );
+    } finally {
+      if (processedInputs != null) {
+        await postProcessInputs(keyImages: processedInputs);
+      }
+    }
+  }
+
+  @override
+  Future<PendingTransaction> createStakeTx({
+    required Recipient output,
+    required TransactionPriority priority,
+    required int accountIndex,
+    List<Output>? preferredInputs,
+    String paymentId = "",
+  }) async {
+    final List<String>? processedInputs;
+    if (preferredInputs != null) {
+      processedInputs = await checkAndProcessInputs(
+        inputs: preferredInputs,
+        sendAmount: output.amount,
+        sweep: false,
+      );
+    } else {
+      processedInputs = null;
+    }
+    final inputsToUse = preferredInputs ?? <Output>[];
+
+    try {
+      final walletPointerAddress = _getWalletPointer().address;
+      final pendingTxPointer = Pointer<Void>.fromAddress(
+        await Isolate.run(() {
+          final tx = sal_ffi.createStakeTransaction(
+            Pointer.fromAddress(walletPointerAddress),
+            address: output.address,
+            paymentId: paymentId,
+            amount: output.amount.toInt(),
             pendingTransactionPriority: priority.value,
             subaddressAccount: accountIndex,
             preferredInputs: inputsToUse.map((e) => e.keyImage).toList(),
