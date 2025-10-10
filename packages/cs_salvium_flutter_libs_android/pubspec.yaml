@@ -1,6 +1,6 @@
 name: cs_salvium_flutter_libs_android
 description: Android implementation of cs_salvium_flutter_libs
-version: 1.0.0
+version: 2.0.0
 repository: https://github.com/cypherstack/cs_salvium
 homepage: https://github.com/cypherstack/cs_salvium
 issue_tracker: https://github.com/cypherstack/cs_salvium/issues
@@ -13,9 +13,9 @@ dependencies:
   flutter:
     sdk: flutter
   cs_salvium_flutter_libs_platform_interface: ^1.0.0
-  cs_salvium_flutter_libs_android_x86_64: ^1.0.0
-  cs_salvium_flutter_libs_android_armeabi_v7a: ^1.0.0
-  cs_salvium_flutter_libs_android_arm64_v8a: ^1.0.0
+  cs_salvium_flutter_libs_android_x86_64: ^2.0.0
+  cs_salvium_flutter_libs_android_armeabi_v7a: ^2.0.0
+  cs_salvium_flutter_libs_android_arm64_v8a: ^2.0.0
 
 dev_dependencies:
   flutter_test:

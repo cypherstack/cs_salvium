@@ -1,6 +1,6 @@
 name: cs_salvium_flutter_libs_android_x86_64
 description: "Android x86_64 bins for cs_salvium_flutter_libs"
-version: 1.0.0
+version: 2.0.0
 repository: https://github.com/cypherstack/cs_salvium
 homepage: https://github.com/cypherstack/cs_salvium
 issue_tracker: https://github.com/cypherstack/cs_salvium/issues
