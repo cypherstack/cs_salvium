@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-10-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`cs_salvium` - `v2.0.0`](#cs_salvium---v200)
+
+---
+
+#### `cs_salvium` - `v2.0.0`
+
+ - **FIX**: reduce av false positives. ([500a452c](https://github.com/somerandomcryptoguy/cs_salvium/commit/500a452cf9c58e3f99dacd7c06bf4f318ff8268d))
+
+
 ## 2025-07-15
 
 ### Changes

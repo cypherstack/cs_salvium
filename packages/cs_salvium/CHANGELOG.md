@@ -1,3 +1,7 @@
+## 2.0.0
+
+ - **FIX**: reduce av false positives. ([500a452c](https://github.com/somerandomcryptoguy/cs_salvium/commit/500a452cf9c58e3f99dacd7c06bf4f318ff8268d))
+
 ## 1.2.1
 
  - ios framework fix
