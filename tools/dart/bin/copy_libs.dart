@@ -57,7 +57,7 @@ Future<void> _copyCompiledToFinalLocations(Directory compiledLibsDir) async {
         "${Platform.pathSeparator}Frameworks",
       );
       await runAsync("rm", ["-rf", libsDir.path]);
-      await runAsync("cp", ["-r", compiled.path, libsDir.path]);
+      await runAsync("rsync", ["-a", compiled.path, libsDir.parent.path]);
       l("Copied $os libs.");
     } else {
       l("Copy $os libs failed. No compiled libs found.");
