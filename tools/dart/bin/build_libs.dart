@@ -155,7 +155,7 @@ void main(List<String> args) async {
             "${Platform.pathSeparator}aarch64-apple-darwin_libwallet2_api_c.dylib";
       }
 
-      await createFramework(
+      await createMacosFramework(
         frameworkName: "SalviumWallet",
         pathToDylib: salDylib,
         targetDirFrameworks: dir.path,

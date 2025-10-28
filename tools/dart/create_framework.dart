@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'util.dart';
 
-Future<void> createFramework({
+Future<void> createMacosFramework({
   required String frameworkName,
   required String pathToDylib,
   required String targetDirFrameworks,
@@ -14,16 +14,25 @@ Future<void> createFramework({
   );
   await frameworkDir.create(recursive: true);
 
+  final resourcesDir = Directory(
+    "${frameworkDir.path}"
+    "${Platform.pathSeparator}Versions"
+    "${Platform.pathSeparator}A"
+    "${Platform.pathSeparator}Resources",
+  );
+  await resourcesDir.create(recursive: true);
+  final versionADir = resourcesDir.parent;
+
   // Change directory to the framework directory and run commands
   final temp = Directory.current;
-  Directory.current = frameworkDir;
+  Directory.current = versionADir;
   await runAsync(
     "lipo",
     [
       "-create",
       pathToDylib,
       "-output",
-      "${frameworkDir.path}"
+      "${versionADir.path}"
           "${Platform.pathSeparator}$frameworkName",
     ],
   );
@@ -31,15 +40,17 @@ Future<void> createFramework({
     "-id",
     "@rpath"
         "${Platform.pathSeparator}$frameworkName.framework"
+        "${Platform.pathSeparator}Versions"
+        "${Platform.pathSeparator}A"
         "${Platform.pathSeparator}$frameworkName",
-    "${frameworkDir.path}"
+    "${versionADir.path}"
         "${Platform.pathSeparator}$frameworkName",
   ]);
   Directory.current = temp;
 
   // Create Info.plist file
   final plistFile = File(
-    "${frameworkDir.path}"
+    "${resourcesDir.path}"
     "${Platform.pathSeparator}Info.plist",
   );
   await plistFile.writeAsString('''
@@ -66,6 +77,32 @@ Future<void> createFramework({
 </dict>
 </plist>
 ''');
+
+  Directory.current = frameworkDir;
+
+  await Link(
+    frameworkName,
+  ).create(
+    "Versions"
+    "${Platform.pathSeparator}Current"
+    "${Platform.pathSeparator}$frameworkName",
+  );
+
+  await Link(
+    "Resources",
+  ).create(
+    "Versions"
+    "${Platform.pathSeparator}Current"
+    "${Platform.pathSeparator}Resources",
+  );
+
+  Directory.current = versionADir.parent;
+  await Link(
+    "Current",
+  ).create(
+    "A",
+    recursive: false,
+  );
 
   l("Framework $frameworkName created successfully in ${frameworkDir.path}");
 }
