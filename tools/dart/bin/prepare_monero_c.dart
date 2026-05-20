@@ -20,7 +20,7 @@ void main() async {
       'clone',
       kMoneroCRepo,
       '--branch',
-      'wallet_api_carrot_fixes',
+      'salvium_two',
     ]);
 
     // Change directory to MONERO_C_DIR
@@ -45,7 +45,15 @@ void main() async {
     // Update submodules
     await runAsync(
       'git',
-      ['submodule', 'update', '--init', '--force', '--recursive'],
+      [
+        'submodule',
+        'update',
+        '--init',
+        '--force',
+        '--recursive',
+        '--',
+        'salvium',
+      ],
     );
 
     // Apply patches
