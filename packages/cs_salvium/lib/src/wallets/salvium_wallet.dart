@@ -5,7 +5,8 @@ import 'package:meta/meta.dart';
 
 import '../../cs_salvium.dart';
 import '../deprecated/get_height_by_date.dart';
-import '../enums/tx_type.dart';
+// ignore: unnecessary_import
+import '../enums/tx_type.dart'; // TODO: use directly once Output exposes typed asset/type fields
 import '../ffi_bindings/salvium_wallet_bindings.dart' as sal_ffi;
 import '../ffi_bindings/salvium_wallet_manager_bindings.dart' as sal_wm_ffi;
 
@@ -36,9 +37,7 @@ class SalviumWallet extends Wallet {
   Pointer<Void>? _walletPointer;
   Pointer<Void> _getWalletPointer() {
     if (_walletPointer == null) {
-      throw Exception(
-        "SalviumWallet was closed!",
-      );
+      throw Exception("SalviumWallet was closed!");
     }
     return _walletPointer!;
   }
@@ -65,7 +64,8 @@ class SalviumWallet extends Wallet {
         sal_ffi.getTransactionInfoTimestamp(infoPointer) * 1000,
       ),
       type: TxType.values.firstWhere(
-          (e) => e.value == sal_ffi.getTransactionInfoType(infoPointer)),
+        (e) => e.value == sal_ffi.getTransactionInfoType(infoPointer),
+      ),
       minConfirms: MinConfirms.salvium,
     );
   }
@@ -350,17 +350,16 @@ class SalviumWallet extends Wallet {
     required String viewKey,
     int networkType = 0,
     int restoreHeight = 0,
-  }) async =>
-      await restoreWalletFromKeys(
-        path: path,
-        password: password,
-        language: "", // not used when the viewKey is not empty
-        address: address,
-        viewKey: viewKey,
-        spendKey: "",
-        networkType: networkType,
-        restoreHeight: restoreHeight,
-      );
+  }) async => await restoreWalletFromKeys(
+    path: path,
+    password: password,
+    language: "", // not used when the viewKey is not empty
+    address: address,
+    viewKey: viewKey,
+    spendKey: "",
+    networkType: networkType,
+    restoreHeight: restoreHeight,
+  );
 
   /// Restores a Salvium wallet from private keys and address.
   ///
@@ -564,10 +563,8 @@ class SalviumWallet extends Wallet {
 
   // ===========================================================================
   // special check to see if wallet exists
-  static bool isWalletExist(String path) => sal_wm_ffi.walletExists(
-        _walletManagerPointer,
-        path,
-      );
+  static bool isWalletExist(String path) =>
+      sal_wm_ffi.walletExists(_walletManagerPointer, path);
 
   // ===========================================================================
   // === Internal overrides ====================================================
@@ -578,11 +575,7 @@ class SalviumWallet extends Wallet {
     _coinsPointer = sal_ffi.getCoinsPointer(_getWalletPointer());
     final pointerAddress = _coinsPointer!.address;
     await Isolate.run(() {
-      sal_ffi.refreshCoins(
-        Pointer.fromAddress(
-          pointerAddress,
-        ),
-      );
+      sal_ffi.refreshCoins(Pointer.fromAddress(pointerAddress));
     });
   }
 
@@ -595,19 +588,14 @@ class SalviumWallet extends Wallet {
     final pointerAddress = _transactionHistoryPointer!.address;
 
     await Isolate.run(() {
-      sal_ffi.refreshTransactionHistory(
-        Pointer.fromAddress(
-          pointerAddress,
-        ),
-      );
+      sal_ffi.refreshTransactionHistory(Pointer.fromAddress(pointerAddress));
     });
   }
 
   @override
   @protected
-  int transactionCount() => sal_ffi.getTransactionHistoryCount(
-        _transactionHistoryPointer!,
-      );
+  int transactionCount() =>
+      sal_ffi.getTransactionHistoryCount(_transactionHistoryPointer!);
 
   // ===========================================================================
   // === Overrides =============================================================
@@ -651,10 +639,7 @@ class SalviumWallet extends Wallet {
 
     sal_ffi.checkWalletStatus(_getWalletPointer());
 
-    sal_ffi.setTrustedDaemon(
-      _getWalletPointer(),
-      arg: trusted,
-    );
+    sal_ffi.setTrustedDaemon(_getWalletPointer(), arg: trusted);
   }
 
   // @override
@@ -842,19 +827,16 @@ class SalviumWallet extends Wallet {
 
   @override
   BigInt getBalance({int accountIndex = 0}) => BigInt.from(
-        sal_ffi.getWalletBalance(
-          _getWalletPointer(),
-          accountIndex: accountIndex,
-        ),
-      );
+    sal_ffi.getWalletBalance(_getWalletPointer(), accountIndex: accountIndex),
+  );
 
   @override
   BigInt getUnlockedBalance({int accountIndex = 0}) => BigInt.from(
-        sal_ffi.getWalletUnlockedBalance(
-          _getWalletPointer(),
-          accountIndex: accountIndex,
-        ),
-      );
+    sal_ffi.getWalletUnlockedBalance(
+      _getWalletPointer(),
+      accountIndex: accountIndex,
+    ),
+  );
 
   // @override
   // List<Account> getAccounts({bool includeSubaddresses = false}) {
@@ -1021,8 +1003,14 @@ class SalviumWallet extends Wallet {
       for (int i = 0; i < count; i++) {
         final coinInfoPointer = sal_ffi.getCoinInfoPointer(_coinsPointer!, i);
 
-        final asset_type = sal_ffi.getAssetForCoinsInfo(coinInfoPointer);
-        final tx_type = sal_ffi.getTypeForCoinsInfo(coinInfoPointer);
+        // ignore: unused_local_variable
+        final assetType = sal_ffi.getAssetForCoinsInfo(
+          coinInfoPointer,
+        ); // TODO: populate Output.asset when field is added
+        // ignore: unused_local_variable
+        final txType = sal_ffi.getTypeForCoinsInfo(
+          coinInfoPointer,
+        ); // TODO: populate Output.type when field is added
         final hash = sal_ffi.getHashForCoinsInfo(coinInfoPointer);
 
         if (hash.isNotEmpty) {
@@ -1033,8 +1021,9 @@ class SalviumWallet extends Wallet {
               address: sal_ffi.getAddressForCoinsInfo(coinInfoPointer),
               hash: hash,
               keyImage: sal_ffi.getKeyImageForCoinsInfo(coinInfoPointer),
-              value:
-                  BigInt.from(sal_ffi.getAmountForCoinsInfo(coinInfoPointer)),
+              value: BigInt.from(
+                sal_ffi.getAmountForCoinsInfo(coinInfoPointer),
+              ),
               isFrozen: sal_ffi.isFrozenCoinsInfo(coinInfoPointer),
               isUnlocked: sal_ffi.isUnlockedCoinsInfo(coinInfoPointer),
               vout: sal_ffi.getInternalOutputIndexForCoinsInfo(coinInfoPointer),
@@ -1171,8 +1160,9 @@ class SalviumWallet extends Wallet {
       sal_ffi.checkPendingTransactionStatus(pendingTxPointer);
 
       return PendingTransaction(
-        amount:
-            BigInt.from(sal_ffi.getPendingTransactionAmount(pendingTxPointer)),
+        amount: BigInt.from(
+          sal_ffi.getPendingTransactionAmount(pendingTxPointer),
+        ),
         fee: BigInt.from(sal_ffi.getPendingTransactionFee(pendingTxPointer)),
         txid: sal_ffi.getPendingTransactionTxid(pendingTxPointer),
         hex: sal_ffi.getPendingTransactionHex(pendingTxPointer),
@@ -1225,8 +1215,9 @@ class SalviumWallet extends Wallet {
       sal_ffi.checkPendingTransactionStatus(pendingTxPointer);
 
       return PendingTransaction(
-        amount:
-            BigInt.from(sal_ffi.getPendingTransactionAmount(pendingTxPointer)),
+        amount: BigInt.from(
+          sal_ffi.getPendingTransactionAmount(pendingTxPointer),
+        ),
         fee: BigInt.from(sal_ffi.getPendingTransactionFee(pendingTxPointer)),
         txid: sal_ffi.getPendingTransactionTxid(pendingTxPointer),
         hex: sal_ffi.getPendingTransactionHex(pendingTxPointer),
@@ -1252,10 +1243,9 @@ class SalviumWallet extends Wallet {
     if (preferredInputs != null) {
       processedInputs = await checkAndProcessInputs(
         inputs: preferredInputs,
-        sendAmount: outputs.map((e) => e.amount).fold(
-              BigInt.zero,
-              (p, e) => p + e,
-            ),
+        sendAmount: outputs
+            .map((e) => e.amount)
+            .fold(BigInt.zero, (p, e) => p + e),
         sweep: sweep,
       );
     } else {
@@ -1284,15 +1274,12 @@ class SalviumWallet extends Wallet {
       sal_ffi.checkPendingTransactionStatus(pendingTxPointer);
 
       return PendingTransaction(
-        amount:
-            BigInt.from(sal_ffi.getPendingTransactionAmount(pendingTxPointer)),
+        amount: BigInt.from(
+          sal_ffi.getPendingTransactionAmount(pendingTxPointer),
+        ),
         fee: BigInt.from(sal_ffi.getPendingTransactionFee(pendingTxPointer)),
-        txid: sal_ffi.getPendingTransactionTxid(
-          pendingTxPointer,
-        ),
-        hex: sal_ffi.getPendingTransactionHex(
-          pendingTxPointer,
-        ),
+        txid: sal_ffi.getPendingTransactionTxid(pendingTxPointer),
+        hex: sal_ffi.getPendingTransactionHex(pendingTxPointer),
         pointerAddress: pendingTxPointer.address,
       );
     } finally {
@@ -1307,24 +1294,17 @@ class SalviumWallet extends Wallet {
     // TODO: check if the return value should be used in any way or if it is ok to rely on the status check below?
     final _ = await Isolate.run(() {
       return sal_ffi.commitPendingTransaction(
-        Pointer<Void>.fromAddress(
-          tx.pointerAddress,
-        ),
+        Pointer<Void>.fromAddress(tx.pointerAddress),
       );
     });
 
     sal_ffi.checkPendingTransactionStatus(
-      Pointer<Void>.fromAddress(
-        tx.pointerAddress,
-      ),
+      Pointer<Void>.fromAddress(tx.pointerAddress),
     );
   }
 
   @override
-  Future<String> signMessage(
-    String message,
-    String address,
-  ) async {
+  Future<String> signMessage(String message, String address) async {
     final pointerAddress = _getWalletPointer().address;
     return await Isolate.run(() {
       return sal_ffi.signMessageWith(

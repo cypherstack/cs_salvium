@@ -1,5 +1,6 @@
 import 'package:cs_salvium/cs_salvium.dart';
-import 'package:cs_salvium/src/enums/tx_type.dart';
+// ignore: unnecessary_import
+import 'package:cs_salvium/src/enums/tx_type.dart'; // TODO: use directly once Transaction exposes typed asset/type fields
 import 'package:test/test.dart';
 
 void main() {

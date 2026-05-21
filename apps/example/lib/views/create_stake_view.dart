@@ -138,7 +138,7 @@ class RecipientForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).primaryColor.withOpacity(0.2),
+      color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
