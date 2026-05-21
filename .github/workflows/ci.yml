@@ -52,3 +52,7 @@ jobs:
 
       - name: Test
         run: melos run test
+
+      - name: Build example app (linux)
+        run: flutter build linux --release
+        working-directory: apps/example
