@@ -5,7 +5,6 @@ import 'package:meta/meta.dart';
 
 import '../../cs_salvium.dart';
 import '../deprecated/get_height_by_date.dart';
-import '../enums/tx_type.dart';
 import '../ffi_bindings/salvium_wallet_bindings.dart' as sal_ffi;
 import '../ffi_bindings/salvium_wallet_manager_bindings.dart' as sal_wm_ffi;
 
@@ -65,7 +64,7 @@ class SalviumWallet extends Wallet {
         sal_ffi.getTransactionInfoTimestamp(infoPointer) * 1000,
       ),
       type: TxType.values.firstWhere(
-          (e) => e.value == sal_ffi.getTransactionInfoType(infoPointer)),
+          (e) => e.value == sal_ffi.getTransactionInfoType(infoPointer),),
       minConfirms: MinConfirms.salvium,
     );
   }
@@ -1021,8 +1020,6 @@ class SalviumWallet extends Wallet {
       for (int i = 0; i < count; i++) {
         final coinInfoPointer = sal_ffi.getCoinInfoPointer(_coinsPointer!, i);
 
-        final asset_type = sal_ffi.getAssetForCoinsInfo(coinInfoPointer);
-        final tx_type = sal_ffi.getTypeForCoinsInfo(coinInfoPointer);
         final hash = sal_ffi.getHashForCoinsInfo(coinInfoPointer);
 
         if (hash.isNotEmpty) {

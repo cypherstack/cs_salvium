@@ -1,5 +1,4 @@
 import 'package:cs_salvium/cs_salvium.dart';
-import 'package:cs_salvium/src/enums/tx_type.dart';
 import 'package:test/test.dart';
 
 void main() {
