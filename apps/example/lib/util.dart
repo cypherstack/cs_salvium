@@ -131,7 +131,7 @@ Future<T?> showLoading<T>({
       builder: (_) => PopScope(
         canPop: false,
         child: Container(
-          color: Theme.of(context).primaryColor.withOpacity(0.6),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.6),
           child: const Center(
             child: SizedBox(
               width: 150,
