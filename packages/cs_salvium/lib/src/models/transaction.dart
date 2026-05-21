@@ -1,4 +1,6 @@
 import '../../cs_salvium.dart';
+// ignore: unnecessary_import
+import '../enums/tx_type.dart'; // TODO: use directly once Transaction exposes typed asset/type fields
 
 /// Represents a Monero (or Wownero) transaction for a given wallet.
 class Transaction {

@@ -5,6 +5,8 @@ import 'package:meta/meta.dart';
 
 import '../../cs_salvium.dart';
 import '../deprecated/get_height_by_date.dart';
+// ignore: unnecessary_import
+import '../enums/tx_type.dart'; // TODO: use directly once Output exposes typed asset/type fields
 import '../ffi_bindings/salvium_wallet_bindings.dart' as sal_ffi;
 import '../ffi_bindings/salvium_wallet_manager_bindings.dart' as sal_wm_ffi;
 
@@ -1020,6 +1022,10 @@ class SalviumWallet extends Wallet {
       for (int i = 0; i < count; i++) {
         final coinInfoPointer = sal_ffi.getCoinInfoPointer(_coinsPointer!, i);
 
+        // ignore: unused_local_variable
+        final assetType = sal_ffi.getAssetForCoinsInfo(coinInfoPointer); // TODO: populate Output.asset when field is added
+        // ignore: unused_local_variable
+        final txType = sal_ffi.getTypeForCoinsInfo(coinInfoPointer); // TODO: populate Output.type when field is added
         final hash = sal_ffi.getHashForCoinsInfo(coinInfoPointer);
 
         if (hash.isNotEmpty) {
