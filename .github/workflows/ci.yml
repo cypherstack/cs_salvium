@@ -29,7 +29,7 @@ jobs:
         run: melos bootstrap
 
       - name: Analyze
-        run: dart analyze
+        run: melos exec -c 1 -- flutter analyze
 
       - name: Format check (changed Dart files)
         run: |
