@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  analyze-and-test:
+    name: Analyze & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.38.1"
+          channel: stable
+          cache: true
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap (resolve dependencies)
+        run: melos bootstrap
+
+      - name: Analyze
+        run: melos exec -c 1 -- flutter analyze
+
+      - name: Format check (changed Dart files)
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            base=$(git merge-base ${{ github.event.pull_request.base.sha }} HEAD)
+          else
+            base="${{ github.event.before }}"
+            if [ "$base" = "0000000000000000000000000000000000000000" ] || [ -z "$base" ]; then
+              base="HEAD^1"
+            fi
+          fi
+          changed=$(git diff --name-only --diff-filter=ACMR "$base"..HEAD -- '*.dart')
+          if [ -n "$changed" ]; then
+            echo "Checking format of $(echo "$changed" | wc -l) changed Dart file(s):"
+            echo "$changed"
+            dart format --output=none --set-exit-if-changed $changed
+          else
+            echo "No changed Dart files to check."
+          fi
+
+      - name: Test
+        run: melos run test
