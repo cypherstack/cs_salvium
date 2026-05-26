@@ -3,6 +3,8 @@ description: "A cs_salvium Flutter example app"
 repository: https://github.com/cypherstack/cs_salvium
 homepage: https://github.com/cypherstack/cs_salvium
 issue_tracker: https://github.com/cypherstack/cs_salvium/issues
+
+resolution: workspace
 publish_to: none
 
 version: 1.0.2+2

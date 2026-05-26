@@ -5,6 +5,8 @@ repository: https://github.com/cypherstack/cs_salvium
 homepage: https://github.com/cypherstack/cs_salvium
 issue_tracker: https://github.com/cypherstack/cs_salvium/issues
 
+resolution: workspace
+
 environment:
   sdk: ">=3.5.3 <4.0.0"
 
