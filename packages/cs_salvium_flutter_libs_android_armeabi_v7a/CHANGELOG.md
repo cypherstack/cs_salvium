@@ -4,7 +4,3 @@
 
  - **BREAKING** **FEAT**: linux and android binary update. ([f7075294](https://github.com/somerandomcryptoguy/cs_salvium/commit/f70752940b7403a1b0d1d18d39eaf518000a5f46))
 
-## 1.0.2
-
- - **FIX**: melos copyLibs. ([ed8e86e8](https://github.com/cypherstack/cs_salvium/commit/ed8e86e8b8be0d07b2a3aec4344cf0ba5a753227))
-

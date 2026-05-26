@@ -1,6 +1,6 @@
 name: cs_salvium_flutter_libs
 description: "Binaries required to use cs_salvium in a Flutter project"
-version: 3.0.0
+version: 3.0.1
 repository: https://github.com/cypherstack/cs_salvium
 homepage: https://github.com/cypherstack/cs_salvium
 issue_tracker: https://github.com/cypherstack/cs_salvium/issues
@@ -13,11 +13,11 @@ dependencies:
   flutter:
     sdk: flutter
   cs_salvium_flutter_libs_platform_interface: ^1.0.0
-  cs_salvium_flutter_libs_android: ^2.0.0
-  cs_salvium_flutter_libs_ios: ^2.0.0
-  cs_salvium_flutter_libs_linux: ^2.0.0
-  cs_salvium_flutter_libs_macos: ^2.0.0
-  cs_salvium_flutter_libs_windows: ^2.0.0
+  cs_salvium_flutter_libs_android: ^3.0.1
+  cs_salvium_flutter_libs_ios: ^3.0.0
+  cs_salvium_flutter_libs_linux: ^3.0.0
+  cs_salvium_flutter_libs_macos: ^3.0.0
+  cs_salvium_flutter_libs_windows: ^3.0.0
 
 dev_dependencies:
   flutter_test:

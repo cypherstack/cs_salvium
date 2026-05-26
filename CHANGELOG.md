@@ -3,6 +3,67 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-05-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`cs_salvium_flutter_libs_android_arm64_v8a` - `v3.0.0`](#cs_salvium_flutter_libs_android_arm64_v8a---v300)
+ - [`cs_salvium_flutter_libs_android_armeabi_v7a` - `v3.0.0`](#cs_salvium_flutter_libs_android_armeabi_v7a---v300)
+ - [`cs_salvium_flutter_libs_android_x86_64` - `v3.0.0`](#cs_salvium_flutter_libs_android_x86_64---v300)
+ - [`cs_salvium_flutter_libs_ios` - `v3.0.0`](#cs_salvium_flutter_libs_ios---v300)
+ - [`cs_salvium_flutter_libs_linux` - `v3.0.0`](#cs_salvium_flutter_libs_linux---v300)
+ - [`cs_salvium_flutter_libs_macos` - `v3.0.0`](#cs_salvium_flutter_libs_macos---v300)
+ - [`cs_salvium_flutter_libs_windows` - `v3.0.0`](#cs_salvium_flutter_libs_windows---v300)
+
+Packages with other changes:
+
+ - [`cs_salvium_flutter_libs_android` - `v3.0.1`](#cs_salvium_flutter_libs_android---v301)
+ - [`cs_salvium_flutter_libs` - `v3.0.1`](#cs_salvium_flutter_libs---v301)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `cs_salvium_flutter_libs_android` - `v3.0.1`
+ - `cs_salvium_flutter_libs` - `v3.0.1`
+
+---
+
+#### `cs_salvium_flutter_libs_android_arm64_v8a` - `v3.0.0`
+
+ - **BREAKING** **FEAT**: linux and android binary update. ([f7075294](https://github.com/somerandomcryptoguy/cs_salvium/commit/f70752940b7403a1b0d1d18d39eaf518000a5f46))
+
+#### `cs_salvium_flutter_libs_android_armeabi_v7a` - `v3.0.0`
+
+ - **BREAKING** **FEAT**: linux and android binary update. ([f7075294](https://github.com/somerandomcryptoguy/cs_salvium/commit/f70752940b7403a1b0d1d18d39eaf518000a5f46))
+
+#### `cs_salvium_flutter_libs_android_x86_64` - `v3.0.0`
+
+ - **BREAKING** **FEAT**: linux and android binary update. ([f7075294](https://github.com/somerandomcryptoguy/cs_salvium/commit/f70752940b7403a1b0d1d18d39eaf518000a5f46))
+
+#### `cs_salvium_flutter_libs_ios` - `v3.0.0`
+
+ - **FIX**: missed version bump. ([13b237ef](https://github.com/somerandomcryptoguy/cs_salvium/commit/13b237eff3bc1863351eda8ac6f4a1fdc9e6fddf))
+ - **BREAKING** **FEAT**: apple library update. ([1a87d196](https://github.com/somerandomcryptoguy/cs_salvium/commit/1a87d1961a660ca6f326e270efb75d806c9e621b))
+
+#### `cs_salvium_flutter_libs_linux` - `v3.0.0`
+
+ - **BREAKING** **FEAT**: linux and android binary update. ([f7075294](https://github.com/somerandomcryptoguy/cs_salvium/commit/f70752940b7403a1b0d1d18d39eaf518000a5f46))
+
+#### `cs_salvium_flutter_libs_macos` - `v3.0.0`
+
+ - **FIX**(macos): updated frameworks. ([2f694735](https://github.com/somerandomcryptoguy/cs_salvium/commit/2f694735d0074003983c1e0e892b2a66952c1940))
+ - **BREAKING** **FEAT**: apple library update. ([1a87d196](https://github.com/somerandomcryptoguy/cs_salvium/commit/1a87d1961a660ca6f326e270efb75d806c9e621b))
+
+#### `cs_salvium_flutter_libs_windows` - `v3.0.0`
+
+ - **BREAKING** **FEAT**: windows binary update. ([ce110b3c](https://github.com/somerandomcryptoguy/cs_salvium/commit/ce110b3c414c34c05c3ba15c8bd2bd7c017a1ced))
+
+
 ## 2025-07-15
 
 ### Changes
