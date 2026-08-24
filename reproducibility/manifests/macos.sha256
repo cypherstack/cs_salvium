@@ -1,0 +1,4 @@
+# stack-wallet-precompiled-sha256-v1
+# platform: macos
+9b8c0f864bb95791f785554d4eef29a0296c909aa199488001527536e0dec997  Frameworks/SalviumWallet.framework/Versions/A/Resources/Info.plist
+6efd2fe3f7d941155c2e313299d781f6836e30551c9b4acebbe421b26dac9a5f  Frameworks/SalviumWallet.framework/Versions/A/SalviumWallet
