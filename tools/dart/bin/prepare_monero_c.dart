@@ -3,12 +3,15 @@ import 'dart:io';
 import '../env.dart';
 import '../util.dart';
 
-const gitNetworkEnvironment = <String, String>{
+const gitBuildEnvironment = <String, String>{
   'GIT_CONFIG_COUNT': '2',
   'GIT_CONFIG_KEY_0': 'http.version',
   'GIT_CONFIG_VALUE_0': 'HTTP/1.1',
   'GIT_CONFIG_KEY_1': 'submodule.fetchJobs',
   'GIT_CONFIG_VALUE_1': '1',
+  'GIT_COMMITTER_NAME': 'Stack Wallet reproducible build',
+  'GIT_COMMITTER_EMAIL': 'reproducible-build@stackwallet.com',
+  'GIT_COMMITTER_DATE': '@1 +0000',
 };
 
 void main() async {
@@ -29,7 +32,7 @@ void main() async {
       kMoneroCRepo,
       '--branch',
       'salvium_two',
-    ], environment: gitNetworkEnvironment);
+    ], environment: gitBuildEnvironment);
 
     // Change directory to MONERO_C_DIR
     Directory.current = moneroCDir;
@@ -59,12 +62,12 @@ void main() async {
       '--recursive',
       '--',
       'salvium',
-    ], environment: gitNetworkEnvironment);
+    ], environment: gitBuildEnvironment);
 
     // Apply patches
     await runAsync('./apply_patches.sh', [
       'salvium',
-    ], environment: gitNetworkEnvironment);
+    ], environment: gitBuildEnvironment);
 
     // Apply fix-av.patch to salvium_c.
     final patchPath = '$envProjectDir/patches/fix-av.patch';
