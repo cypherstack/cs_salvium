@@ -3,6 +3,14 @@ import 'dart:io';
 import '../env.dart';
 import '../util.dart';
 
+const gitNetworkEnvironment = <String, String>{
+  'GIT_CONFIG_COUNT': '2',
+  'GIT_CONFIG_KEY_0': 'http.version',
+  'GIT_CONFIG_VALUE_0': 'HTTP/1.1',
+  'GIT_CONFIG_KEY_1': 'submodule.fetchJobs',
+  'GIT_CONFIG_VALUE_1': '1',
+};
+
 void main() async {
   await createBuildDirs();
 
@@ -21,7 +29,7 @@ void main() async {
       kMoneroCRepo,
       '--branch',
       'salvium_two',
-    ]);
+    ], environment: gitNetworkEnvironment);
 
     // Change directory to MONERO_C_DIR
     Directory.current = moneroCDir;
@@ -43,30 +51,25 @@ void main() async {
     // ]);
 
     // Update submodules
-    await runAsync(
-      'git',
-      [
-        'submodule',
-        'update',
-        '--init',
-        '--force',
-        '--recursive',
-        '--',
-        'salvium',
-      ],
-    );
+    await runAsyncWithRetries('git', [
+      'submodule',
+      'update',
+      '--init',
+      '--force',
+      '--recursive',
+      '--',
+      'salvium',
+    ], environment: gitNetworkEnvironment);
 
     // Apply patches
-    await runAsync('./apply_patches.sh', ['salvium']);
+    await runAsync('./apply_patches.sh', [
+      'salvium',
+    ], environment: gitNetworkEnvironment);
 
     // Apply fix-av.patch to salvium_c.
     final patchPath = '$envProjectDir/patches/fix-av.patch';
 
     l('Applying fix-av.patch to salvium_c...');
-    await runAsync('git', [
-      'apply',
-      '--whitespace=nowarn',
-      patchPath,
-    ]);
+    await runAsync('git', ['apply', '--whitespace=nowarn', patchPath]);
   }
 }
