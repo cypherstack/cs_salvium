@@ -199,6 +199,7 @@ void main(List<String> args) async {
               "${Platform.pathSeparator}salvium_libwallet2_api_c.dll",
         ],
       );
+      break;
 
     default:
       throw Exception("Not sure how you got this far tbh");
