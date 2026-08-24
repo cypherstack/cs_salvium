@@ -96,6 +96,7 @@
 
             cmakeFlags = [
               "-DHOST_ABI=${hostAbi}"
+              "-DARCH=default"
               "-DMONERO_FLAVOR=salvium"
               "-DMANUAL_SUBMODULES=ON"
               "-DUSE_DEVICE_TREZOR=OFF"
